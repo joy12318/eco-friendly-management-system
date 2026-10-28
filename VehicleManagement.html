@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/@flaticon/flaticon-uicons@3.3.1/css/all/all.min.css" rel="stylesheet">
+    <title>Vehicle Management</title>
+
+    <style>
+        :root {
+            color-scheme: dark;
+            --background: #171717;
+            --sidebar: #181818;
+            --border: #2b2b2b;
+            --muted: #a0a0a0;
+            --text: #f5f5f5;
+            --accent: #1f6200;
+        }
+
+        * { box-sizing: border-box; }
+
+        html, body {
+            min-height: 100%;
+            margin: 0;
+        }
+
+        body {
+            background: var(--background);
+            color: var(--text);
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;
+        }
+
+        .app-shell {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            width: 178px;
+            min-height: 100vh;
+            padding: 31px 12px 57px;
+            border-right: 1px solid var(--border);
+            background: var(--sidebar);
+        }
+
+        .brand {
+            margin: 0 0 27px;
+            font-size: 17px;
+            font-weight: 700;
+            letter-spacing: 1.1px;
+            text-align: center;
+        }
+
+        .navigation {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .nav-link {
+            display: flex;
+            gap: 10px;
+            min-height: 32px;
+            padding: 8px 10px;
+            border-radius: 4px;
+            color: var(--muted);
+            font-size: 11px;
+            text-decoration: none;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: var(--accent);
+            color: white;
+        }
+
+        .nav-icon {
+            width: 14px;
+            font-size: 15px;
+        }
+
+        .logout { margin-top: auto; }
+
+        .main-content {
+            flex: 1;
+            min-width: 0;
+            padding: 34px 48px;
+        }
+
+        .page-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 0;
+            font-size: 24px;
+            letter-spacing: 1.6px;
+        }
+
+        .leaf {
+            color: #65ee28;
+            font-size: 23px;
+        }
+
+        hr { border: 1px solid var(--border); }
+
+        .vehicle-page {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .intro {
+            margin: 18px 0 26px;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .vehicle-section {
+            margin: 24px 0;
+            padding: 24px;
+            background: #1d1d1d;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+        }
+
+        .vehicle-section h3 {
+            margin: 0 0 22px;
+            font-size: 18px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+            min-width: 0;
+        }
+
+        .field.full-width { grid-column: 1 / -1; }
+
+        .field label {
+            color: #dedede;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .vehicle-page input,
+        .vehicle-page select,
+        .vehicle-page textarea {
+            width: 100%;
+            min-width: 0;
+            padding: 12px 14px;
+            color: var(--text);
+            background: #151515;
+            border: 1px solid #383838;
+            border-radius: 6px;
+            font: inherit;
+        }
+
+        .vehicle-page input:focus,
+        .vehicle-page select:focus,
+        .vehicle-page textarea:focus {
+            outline: 1px solid #65ee28;
+            border-color: #65ee28;
+        }
+
+        .vehicle-page textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 22px;
+        }
+
+        .vehicle-page button {
+            padding: 10px 15px;
+            color: white;
+            background: var(--accent);
+            border: 1px solid #356d20;
+            border-radius: 6px;
+            cursor: pointer;
+            font: inherit;
+        }
+
+        .vehicle-page button:hover { background: #2c8108; }
+
+        .vehicle-page button.secondary {
+            background: #292929;
+            border-color: #454545;
+        }
+
+        .vehicle-page button.danger {
+            background: #702020;
+            border-color: #873333;
+        }
+
+        .search-box {
+            max-width: 420px;
+            margin-bottom: 18px;
+        }
+
+        .table-wrap {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .vehicle-page table {
+            width: 100%;
+            min-width: 850px;
+            border-collapse: collapse;
+        }
+
+        .vehicle-page th,
+        .vehicle-page td {
+            padding: 14px 12px;
+            border-bottom: 1px solid var(--border);
+            text-align: left;
+            font-size: 13px;
+            vertical-align: top;
+        }
+
+        .vehicle-page th {
+            color: #b8e7a7;
+            background: #252525;
+        }
+
+        .vehicle-page tbody tr:hover { background: #242824; }
+
+        .status {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 20px;
+            background: #1e4926;
+            color: #9af5a6;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
+        .status.in-use {
+            background: #4b3914;
+            color: #ffd778;
+        }
+
+        .status.maintenance {
+            background: #512626;
+            color: #ffaaaa;
+        }
+
+        .empty-row {
+            padding: 24px !important;
+            color: var(--muted);
+            text-align: center !important;
+        }
+
+        .table-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .table-actions button {
+            padding: 7px 10px;
+            font-size: 12px;
+        }
+
+        @media (max-width: 900px) {
+            .main-content { padding: 28px 24px; }
+        }
+
+        @media (max-width: 640px) {
+            .app-shell { display: block; }
+
+            .sidebar {
+                width: 100%;
+                min-height: auto;
+                padding: 20px 12px;
+            }
+
+            .navigation {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .logout { margin-top: 12px; }
+            .main-content { padding: 24px 16px; }
+            .form-grid { grid-template-columns: 1fr; }
+            .field.full-width { grid-column: auto; }
+            .vehicle-section { padding: 16px; }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- NAV BAR GENERATED BY Code.gs -->
+
+    <main class="main-content vehicle-page">
+        <h2 class="page-title">
+            <span class="leaf" aria-hidden="true">🪴</span>
+            VEHICLE MANAGEMENT
+        </h2>
+
+        <!-- VEHICLE REGISTRATION -->
+        <section class="vehicle-section">
+            <h3 id="formTitle">Vehicle Registration</h3>
+
+            <form id="vehicleForm">
+                <div class="form-grid">
+
+                    <div class="field">
+                        <label for="vehicleId">Vehicle ID</label>
+                        <input id="vehicleId" type="text"
+                            placeholder="Example: VEH-001" required>
+                    </div>
+
+                    <div class="field">
+                        <label for="plateNumber">Plate Number</label>
+                        <input id="plateNumber" type="text"
+                            placeholder="Enter plate number" required>
+                    </div>
+
+                    <div class="field">
+                        <label for="vehicleType">Vehicle Type</label>
+                        <select id="vehicleType" required>
+                            <option value="">Select vehicle type</option>
+                            <option>Garbage Truck</option>
+                            <option>Dump Truck</option>
+                            <option>Recycling Truck</option>
+                            <option>Collection Van</option>
+                            <option>Utility Vehicle</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label for="capacity">Capacity (kg)</label>
+                        <input id="capacity" type="number"
+                            min="1" placeholder="Example: 5000" required>
+                    </div>
+
+                    <div class="field">
+                        <label for="driverName">Assigned Driver</label>
+                        <input id="driverName" type="text"
+                            placeholder="Enter driver's name" required>
+                    </div>
+
+                    <div class="field">
+                        <label for="vehicleStatus">Vehicle Status</label>
+                        <select id="vehicleStatus" required>
+                            <option value="Available">Available</option>
+                            <option value="In Use">In Use</option>
+                            <option value="Under Maintenance">Under Maintenance</option>
+                        </select>
+                    </div>
+
+                    <div class="field full-width">
+                        <label for="vehicleRemarks">Remarks (Optional)</label>
+                        <textarea id="vehicleRemarks"
+                            placeholder="Enter additional vehicle information"></textarea>
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <button type="submit" id="submitButton">Add Vehicle</button>
+                    <button type="reset" class="secondary" id="clearButton">
+                        Clear Form
+                    </button>
+                    <button type="button" class="secondary"
+                        id="cancelEditButton" hidden>
+                        Cancel Edit
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <!-- VEHICLE RECORDS -->
+        <section class="vehicle-section">
+            <h3>Vehicle Records</h3>
+
+            <input type="text" id="vehicleSearch" class="search-box"
+                placeholder="Search ID, plate number, type, or driver...">
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Vehicle ID</th>
+                            <th>Plate Number</th>
+                            <th>Vehicle Type</th>
+                            <th>Capacity (kg)</th>
+                            <th>Driver</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="vehicleTableBody">
+                        <tr>
+                            <td colspan="7" class="empty-row">
+                                No vehicle records yet.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const vehicleForm = document.getElementById("vehicleForm");
+        const vehicleTableBody = document.getElementById("vehicleTableBody");
+        const vehicleSearch = document.getElementById("vehicleSearch");
+        const formTitle = document.getElementById("formTitle");
+        const submitButton = document.getElementById("submitButton");
+        const cancelEditButton = document.getElementById("cancelEditButton");
+
+        let vehicles = [];
+        let editingVehicleId = null;
+
+        vehicleForm.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const vehicle = {
+                id: document.getElementById("vehicleId").value.trim(),
+                plate: document.getElementById("plateNumber").value.trim(),
+                type: document.getElementById("vehicleType").value,
+                capacity: document.getElementById("capacity").value,
+                driver: document.getElementById("driverName").value.trim(),
+                status: document.getElementById("vehicleStatus").value,
+                remarks: document.getElementById("vehicleRemarks").value.trim()
+            };
+
+            const duplicate = vehicles.some(item =>
+                item.id.toLowerCase() === vehicle.id.toLowerCase() &&
+                item.id !== editingVehicleId
+            );
+
+            const duplicatePlate = vehicles.some(item =>
+                item.plate.toLowerCase() === vehicle.plate.toLowerCase() &&
+                item.id !== editingVehicleId
+            );
+
+            if (duplicate) {
+                alert("Vehicle ID already exists. Please use another ID.");
+                return;
+            }
+
+            if (duplicatePlate) {
+                alert("Plate number already exists. Please check the plate number.");
+                return;
+            }
+
+            if (editingVehicleId !== null) {
+                const index = vehicles.findIndex(item =>
+                    item.id === editingVehicleId
+                );
+
+                if (index !== -1) {
+                    vehicles[index] = vehicle;
+                }
+
+                alert("Vehicle updated successfully!");
+            } else {
+                vehicles.push(vehicle);
+                alert("Vehicle added successfully!");
+            }
+
+            resetVehicleForm();
+            renderVehicles();
+        });
+
+        function resetVehicleForm() {
+            vehicleForm.reset();
+            editingVehicleId = null;
+            formTitle.textContent = "Vehicle Registration";
+            submitButton.textContent = "Add Vehicle";
+            cancelEditButton.hidden = true;
+        }
+
+        function createCell(row, value) {
+            const cell = row.insertCell();
+            cell.textContent = value;
+            return cell;
+        }
+
+        function getStatusClass(status) {
+            if (status === "In Use") return "status in-use";
+            if (status === "Under Maintenance") return "status maintenance";
+            return "status";
+        }
+
+        function viewVehicle(vehicle) {
+            alert(
+                "Vehicle ID: " + vehicle.id +
+                "\nPlate Number: " + vehicle.plate +
+                "\nType: " + vehicle.type +
+                "\nCapacity: " + vehicle.capacity + " kg" +
+                "\nDriver: " + vehicle.driver +
+                "\nStatus: " + vehicle.status +
+                "\nRemarks: " + (vehicle.remarks || "None")
+            );
+        }
+
+        function editVehicle(vehicle) {
+            editingVehicleId = vehicle.id;
+
+            document.getElementById("vehicleId").value = vehicle.id;
+            document.getElementById("plateNumber").value = vehicle.plate;
+            document.getElementById("vehicleType").value = vehicle.type;
+            document.getElementById("capacity").value = vehicle.capacity;
+            document.getElementById("driverName").value = vehicle.driver;
+            document.getElementById("vehicleStatus").value = vehicle.status;
+            document.getElementById("vehicleRemarks").value = vehicle.remarks;
+
+            formTitle.textContent = "Edit Vehicle";
+            submitButton.textContent = "Update Vehicle";
+            cancelEditButton.hidden = false;
+
+            document.getElementById("vehicleId").focus();
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+
+        function deleteVehicle(vehicle) {
+            if (!confirm("Are you sure you want to delete vehicle " +
+                vehicle.id + "?")) {
+                return;
+            }
+
+            vehicles = vehicles.filter(item => item.id !== vehicle.id);
+            renderVehicles();
+            alert("Vehicle deleted successfully!");
+        }
+
+        function renderVehicles() {
+            const searchText = vehicleSearch.value.trim().toLowerCase();
+
+            const filteredVehicles = vehicles.filter(vehicle =>
+                vehicle.id.toLowerCase().includes(searchText) ||
+                vehicle.plate.toLowerCase().includes(searchText) ||
+                vehicle.type.toLowerCase().includes(searchText) ||
+                vehicle.driver.toLowerCase().includes(searchText) ||
+                vehicle.status.toLowerCase().includes(searchText)
+            );
+
+            vehicleTableBody.replaceChildren();
+
+            if (filteredVehicles.length === 0) {
+                const row = vehicleTableBody.insertRow();
+                const cell = row.insertCell();
+                cell.colSpan = 7;
+                cell.className = "empty-row";
+                cell.textContent = vehicles.length === 0
+                    ? "No vehicle records yet."
+                    : "No matching vehicles found.";
+                return;
+            }
+
+            filteredVehicles.forEach(vehicle => {
+                const row = vehicleTableBody.insertRow();
+
+                createCell(row, vehicle.id);
+                createCell(row, vehicle.plate);
+                createCell(row, vehicle.type);
+                createCell(row, Number(vehicle.capacity).toLocaleString());
+                createCell(row, vehicle.driver);
+
+                const statusCell = row.insertCell();
+                const statusLabel = document.createElement("span");
+                statusLabel.className = getStatusClass(vehicle.status);
+                statusLabel.textContent = vehicle.status;
+                statusCell.appendChild(statusLabel);
+
+                const actionsCell = row.insertCell();
+                actionsCell.className = "table-actions";
+
+                const viewButton = document.createElement("button");
+                viewButton.type = "button";
+                viewButton.textContent = "View";
+                viewButton.addEventListener("click", () => viewVehicle(vehicle));
+
+                const editButton = document.createElement("button");
+                editButton.type = "button";
+                editButton.className = "secondary";
+                editButton.textContent = "Edit";
+                editButton.addEventListener("click", () => editVehicle(vehicle));
+
+                const deleteButton = document.createElement("button");
+                deleteButton.type = "button";
+                deleteButton.className = "danger";
+                deleteButton.textContent = "Delete";
+                deleteButton.addEventListener("click", () => deleteVehicle(vehicle));
+
+                actionsCell.append(viewButton, editButton, deleteButton);
+            });
+        }
+
+        vehicleSearch.addEventListener("input", renderVehicles);
+
+        vehicleForm.addEventListener("reset", function() {
+            setTimeout(() => {
+                editingVehicleId = null;
+                formTitle.textContent = "Vehicle Registration";
+                submitButton.textContent = "Add Vehicle";
+                cancelEditButton.hidden = true;
+            }, 0);
+        });
+
+        cancelEditButton.addEventListener("click", resetVehicleForm);
+
+        renderVehicles();
+    </script>
+</body>
+</html>

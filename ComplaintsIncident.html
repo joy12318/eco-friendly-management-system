@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/@flaticon/flaticon-uicons@3.3.1/css/all/all.min.css" rel="stylesheet">
+
+    <title>Incident Management</title>
+
+    <style>
+        :root {
+            color-scheme: dark;
+            --background: #171717;
+            --sidebar: #181818;
+            --border: #2b2b2b;
+            --muted: #a0a0a0;
+            --text: #f5f5f5;
+            --accent: #1f6200;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            min-height: 100%;
+            margin: 0;
+        }
+
+        body {
+            background: var(--background);
+            color: var(--text);
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;
+        }
+
+        .app-shell {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            width: 178px;
+            min-height: 100vh;
+            padding: 31px 12px 57px;
+            border-right: 1px solid var(--border);
+            background: var(--sidebar);
+        }
+
+        .brand {
+            margin: 0 0 27px;
+            font-size: 17px;
+            font-weight: 700;
+            letter-spacing: 1.1px;
+            text-align: center;
+        }
+
+        .navigation {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .nav-link {
+            display: flex;
+            gap: 10px;
+            padding: 8px 10px;
+            border-radius: 4px;
+            color: var(--muted);
+            font-size: 11px;
+            text-decoration: none;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: var(--accent);
+            color: white;
+        }
+
+        .nav-icon {
+            width: 14px;
+            font-size: 15px;
+        }
+
+        .logout {
+            margin-top: auto;
+        }
+
+        .main-content {
+            flex: 1;
+            min-width: 0;
+            padding: 34px 48px;
+        }
+
+        .page-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 0;
+            font-size: 24px;
+            letter-spacing: 1.6px;
+        }
+
+        .leaf {
+            color: #65ee28;
+            font-size: 23px;
+        }
+
+        hr {
+            border: 1px solid var(--border);
+        }
+
+        /* INCIDENT MANAGEMENT STYLE */
+
+        .incident-page {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .incident-intro {
+            margin: 18px 0 26px;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .incident-section {
+            margin: 24px 0;
+            padding: 24px;
+            background: #1d1d1d;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+        }
+
+        .incident-section h3 {
+            margin: 0 0 22px;
+            font-size: 18px;
+        }
+
+        .incident-form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .incident-field {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+            min-width: 0;
+        }
+
+        .incident-field.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .incident-field label {
+            color: #dedede;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .incident-page input,
+        .incident-page select,
+        .incident-page textarea {
+            width: 100%;
+            min-width: 0;
+            padding: 12px 14px;
+            color: var(--text);
+            background: #151515;
+            border: 1px solid #383838;
+            border-radius: 6px;
+            font: inherit;
+        }
+
+        .incident-page input:focus,
+        .incident-page select:focus,
+        .incident-page textarea:focus {
+            outline: 1px solid #65ee28;
+            border-color: #65ee28;
+        }
+
+        .incident-page textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .incident-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 22px;
+        }
+
+        .incident-page button {
+            padding: 10px 15px;
+            color: white;
+            background: var(--accent);
+            border: 1px solid #356d20;
+            border-radius: 6px;
+            cursor: pointer;
+            font: inherit;
+        }
+
+        .incident-page button:hover {
+            background: #2c8108;
+        }
+
+        .incident-page button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .incident-page button.secondary-button {
+            background: #292929;
+            border-color: #454545;
+        }
+
+        .incident-search {
+            max-width: 420px;
+            margin-bottom: 18px;
+        }
+
+        .incident-table-wrap {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .incident-page table {
+            width: 100%;
+            min-width: 700px;
+            border-collapse: collapse;
+        }
+
+        .incident-page th,
+        .incident-page td {
+            padding: 14px 12px;
+            border-bottom: 1px solid var(--border);
+            text-align: left;
+            font-size: 13px;
+            vertical-align: top;
+        }
+
+        .incident-page th {
+            color: #b8e7a7;
+            background: #252525;
+        }
+
+        .incident-page tbody tr:hover {
+            background: #242824;
+        }
+
+        .incident-status {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 20px;
+            background: #4b3914;
+            color: #ffd778;
+            font-size: 12px;
+        }
+
+        .incident-status.resolved {
+            background: #1e4926;
+            color: #9af5a6;
+        }
+
+        .incident-empty {
+            padding: 24px !important;
+            color: var(--muted);
+            text-align: center !important;
+        }
+
+        @media (max-width: 900px) {
+            .main-content {
+                padding: 28px 24px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .app-shell {
+                display: block;
+            }
+
+            .sidebar {
+                width: 100%;
+                min-height: auto;
+                padding: 20px 12px;
+            }
+
+            .navigation {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .logout {
+                margin-top: 12px;
+            }
+
+            .main-content {
+                padding: 24px 16px;
+            }
+
+            .incident-form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .incident-field.full-width {
+                grid-column: auto;
+            }
+
+            .incident-section {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- NAV BAR GENERATED BY Code.gs -->
+
+    <div class="main-content incident-page">
+
+        <h2 class="page-title">
+            <span class="leaf" aria-hidden="true">🪴</span>
+           COMPLAINTINCIDENT MANAGEMENT
+        </h2>
+
+        <hr>
+
+
+        <!-- REPORT NEW INCIDENT -->
+        <section class="incident-section">
+            <h3>Report New Incident</h3>
+
+            <form id="incidentForm">
+                <div class="incident-form-grid">
+
+                    <div class="incident-field">
+                        <label for="incidentId">Incident ID</label>
+                        <input type="text" id="incidentId"
+                            placeholder="Example: INC-001" required>
+                    </div>
+
+                    <div class="incident-field">
+                        <label for="incidentType">Incident Type</label>
+                        <select id="incidentType" required>
+                            <option value="">Select incident type</option>
+                            <option>Missed Waste Collection</option>
+                            <option>Illegal Dumping</option>
+                            <option>Waste Spill</option>
+                            <option>Vehicle Breakdown</option>
+                            <option>Damaged Waste Bin</option>
+                            <option>Worker Safety Incident</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+
+                    <div class="incident-field">
+                        <label for="incidentDate">Incident Date</label>
+                        <input type="date" id="incidentDate" required>
+                    </div>
+
+                    <div class="incident-field">
+                        <label for="incidentLocation">Location</label>
+                        <input type="text" id="incidentLocation"
+                            placeholder="Enter incident location" required>
+                    </div>
+
+                    <div class="incident-field">
+                        <label for="incidentSeverity">Severity</label>
+                        <select id="incidentSeverity" required>
+                            <option value="">Select severity</option>
+                            <option>Low</option>
+                            <option>Medium</option>
+                            <option>High</option>
+                            <option>Critical</option>
+                        </select>
+                    </div>
+
+                    <div class="incident-field">
+                        <label for="incidentReporter">Reported By</label>
+                        <input type="text" id="incidentReporter"
+                            placeholder="Enter reporter's name" required>
+                    </div>
+
+                    <div class="incident-field full-width">
+                        <label for="incidentDescription">Incident Description</label>
+                        <textarea id="incidentDescription" rows="4"
+                            placeholder="Describe what happened..." required></textarea>
+                    </div>
+
+                </div>
+
+                <div class="incident-actions">
+                    <button type="submit">Submit Incident</button>
+                    <button type="reset" class="secondary-button">Clear Form</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- CURRENT INCIDENT RECORDS -->
+        <section class="incident-section">
+            <h3>Incident Records</h3>
+
+            <input type="text" id="incidentSearch"
+                class="incident-search"
+                placeholder="Search incident ID, type, or location...">
+
+            <div class="incident-table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Incident ID</th>
+                            <th>Type</th>
+                            <th>Date</th>
+                            <th>Location</th>
+                            <th>Severity</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="incidentTableBody">
+                        <tr>
+                            <td colspan="7" class="incident-empty">
+                                No incident records yet.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- PREVIOUS INCIDENT REPORTS -->
+        <section class="incident-section">
+            <h3>Previous Incident Reports</h3>
+
+            <input type="text" id="previousIncidentSearch"
+                class="incident-search"
+                placeholder="Search previous incidents...">
+
+            <div class="incident-table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Incident ID</th>
+                            <th>Type</th>
+                            <th>Date</th>
+                            <th>Location</th>
+                            <th>Severity</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="previousIncidentTableBody">
+                        <tr>
+                            <td colspan="7" class="incident-empty">
+                                No previous incident reports yet.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        const incidentForm = document.getElementById("incidentForm");
+        const incidentTableBody = document.getElementById("incidentTableBody");
+        const incidentSearch = document.getElementById("incidentSearch");
+        const previousIncidentSearch = document.getElementById("previousIncidentSearch");
+        const previousIncidentTableBody = document.getElementById("previousIncidentTableBody");
+
+        let incidents = [];
+
+        incidentForm.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const incident = {
+                id: document.getElementById("incidentId").value.trim(),
+                type: document.getElementById("incidentType").value,
+                date: document.getElementById("incidentDate").value,
+                location: document.getElementById("incidentLocation").value.trim(),
+                description: document.getElementById("incidentDescription").value.trim(),
+                severity: document.getElementById("incidentSeverity").value,
+                reporter: document.getElementById("incidentReporter").value.trim(),
+                status: "Pending"
+            };
+
+            if (incidents.some(item => item.id.toLowerCase() === incident.id.toLowerCase())) {
+                alert("Incident ID already exists. Please use a different ID.");
+                return;
+            }
+
+            incidents.push(incident);
+            renderIncidents();
+            renderPreviousIncidents();
+            incidentForm.reset();
+
+            alert("Incident recorded successfully!");
+        });
+
+        function showIncidentDetails(incident) {
+            alert(
+                "Incident ID: " + incident.id +
+                "\nType: " + incident.type +
+                "\nDate: " + incident.date +
+                "\nLocation: " + incident.location +
+                "\nSeverity: " + incident.severity +
+                "\nReported By: " + incident.reporter +
+                "\nStatus: " + incident.status +
+                "\nDescription: " + incident.description
+            );
+        }
+
+        function createCell(row, value) {
+            const cell = row.insertCell();
+            cell.textContent = value;
+            return cell;
+        }
+
+        function renderIncidents() {
+            const searchText = incidentSearch.value.toLowerCase();
+
+            const activeIncidents = incidents.filter(incident =>
+                incident.status !== "Resolved" &&
+                (
+                    incident.id.toLowerCase().includes(searchText) ||
+                    incident.type.toLowerCase().includes(searchText) ||
+                    incident.location.toLowerCase().includes(searchText)
+                )
+            );
+
+            incidentTableBody.replaceChildren();
+
+            if (activeIncidents.length === 0) {
+                const row = incidentTableBody.insertRow();
+                const cell = row.insertCell();
+                cell.colSpan = 7;
+                cell.className = "incident-empty";
+                cell.textContent = incidents.some(item => item.status !== "Resolved")
+                    ? "No matching incidents found."
+                    : "No active incident records.";
+                return;
+            }
+
+            activeIncidents.forEach(incident => {
+                const row = incidentTableBody.insertRow();
+
+                createCell(row, incident.id);
+                createCell(row, incident.type);
+                createCell(row, incident.date);
+                createCell(row, incident.location);
+                createCell(row, incident.severity);
+
+                const statusCell = row.insertCell();
+                const statusLabel = document.createElement("span");
+                statusLabel.className = "incident-status";
+                statusLabel.textContent = incident.status;
+                statusCell.appendChild(statusLabel);
+
+                const actionCell = row.insertCell();
+
+                const viewButton = document.createElement("button");
+                viewButton.type = "button";
+                viewButton.textContent = "View";
+                viewButton.addEventListener("click", () => showIncidentDetails(incident));
+
+                const resolveButton = document.createElement("button");
+                resolveButton.type = "button";
+                resolveButton.textContent = "Resolve";
+                resolveButton.style.marginLeft = "6px";
+
+                resolveButton.addEventListener("click", () => {
+                    if (confirm("Mark incident " + incident.id + " as resolved?")) {
+                        incident.status = "Resolved";
+                        renderIncidents();
+                        renderPreviousIncidents();
+                    }
+                });
+
+                actionCell.append(viewButton, resolveButton);
+            });
+        }
+
+        function renderPreviousIncidents() {
+            const searchText = previousIncidentSearch.value.toLowerCase();
+
+            const resolvedIncidents = incidents.filter(incident =>
+                incident.status === "Resolved" &&
+                (
+                    incident.id.toLowerCase().includes(searchText) ||
+                    incident.type.toLowerCase().includes(searchText) ||
+                    incident.location.toLowerCase().includes(searchText)
+                )
+            );
+
+            previousIncidentTableBody.replaceChildren();
+
+            if (resolvedIncidents.length === 0) {
+                const row = previousIncidentTableBody.insertRow();
+                const cell = row.insertCell();
+                cell.colSpan = 7;
+                cell.className = "incident-empty";
+                cell.textContent = incidents.some(item => item.status === "Resolved")
+                    ? "No matching previous incidents found."
+                    : "No previous incident reports yet.";
+                return;
+            }
+
+            resolvedIncidents.forEach(incident => {
+                const row = previousIncidentTableBody.insertRow();
+
+                createCell(row, incident.id);
+                createCell(row, incident.type);
+                createCell(row, incident.date);
+                createCell(row, incident.location);
+                createCell(row, incident.severity);
+
+                const statusCell = row.insertCell();
+                const statusLabel = document.createElement("span");
+                statusLabel.className = "incident-status resolved";
+                statusLabel.textContent = incident.status;
+                statusCell.appendChild(statusLabel);
+
+                const actionCell = row.insertCell();
+                const viewButton = document.createElement("button");
+                viewButton.type = "button";
+                viewButton.textContent = "View";
+                viewButton.addEventListener("click", () => showIncidentDetails(incident));
+
+                actionCell.appendChild(viewButton);
+            });
+        }
+
+        incidentSearch.addEventListener("input", renderIncidents);
+        previousIncidentSearch.addEventListener("input", renderPreviousIncidents);
+
+        renderIncidents();
+        renderPreviousIncidents();
+    </script>
+</body>
+</html>
