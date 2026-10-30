@@ -1,9 +1,12 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link href="https://cdn.jsdelivr.net/npm/@flaticon/flaticon-uicons@3.3.1/css/all/all.min.css" rel="stylesheet">
+
     <style>
         :root {
             color-scheme: dark;
@@ -28,7 +31,7 @@
         body {
             background: var(--background);
             color: var(--text);
-            font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
         }
 
         .app-shell {
@@ -121,56 +124,584 @@
             font-size: 23px;
             line-height: 1;
         }
+
         hr {
             color: var(--border);
             border: 1px solid;
         }
+
         i {
             color: var(--text);
             font-size: 15px;
         }
 
-        @media (max-width: 640px) {
-            .app-shell {
-                display: block;
-            }
+        /* Waste Source Generator styles */
 
-            .sidebar {
-                width: 100%;
-                min-height: auto;
-                padding: 20px 12px;
-            }
+        .page-description {
+            color: var(--muted);
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
 
-            .brand {
-                margin-bottom: 18px;
-            }
+        .summary-container {
+            display: flex;
+            gap: 15px;
+            margin: 25px 0;
+        }
 
-            .navigation {
-                display: grid;
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
+        .summary-card {
+            flex: 1;
+            padding: 20px;
+            background: #f5f5f5;
+            color: #222;
+            border-radius: 7px;
+            border: 1px solid #ddd;
+        }
 
-            .logout {
-                margin-top: 12px;
-            }
+        .summary-card h3 {
+            margin: 0 0 10px;
+            font-size: 14px;
+            font-weight: 600;
+        }
 
-            .main-content {
-                padding: 28px 24px;
-            }
+        .summary-card p {
+            margin: 0;
+            font-size: 28px;
+            font-weight: bold;
+            color: #1f6200;
+        }
+
+        .section-card {
+            background: #f5f5f5;
+            color: #222;
+            padding: 25px;
+            border-radius: 7px;
+            margin-bottom: 25px;
+            border: 1px solid #ddd;
+        }
+
+        .section-title {
+            margin: 0 0 20px;
+            font-size: 18px;
+            color: #222;
+        }
+
+        .form-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .form-group label {
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background: #fff;
+            color: #222;
+            font-family: inherit;
+            font-size: 14px;
+        }
+
+        .form-group textarea {
+            min-height: 75px;
+            resize: vertical;
+        }
+
+        .full-width {
+            grid-column: 1 / 3;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 10px 17px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .btn-green {
+            background: #1f6200;
+            color: #fff;
+        }
+
+        .btn-green:hover {
+            background: #2c8500;
+        }
+
+        .btn-gray {
+            background: #ddd;
+            color: #222;
+        }
+
+        .btn-gray:hover {
+            background: #ccc;
+        }
+
+        .btn-edit {
+            background: #e6e6e6;
+            color: #222;
+            padding: 7px 10px;
+        }
+
+        .btn-delete {
+            background: #a72828;
+            color: #fff;
+            padding: 7px 10px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 18px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background: #fff;
+            color: #222;
+            font-family: inherit;
+            font-size: 14px;
+        }
+
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .source-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            color: #222;
+            font-size: 13px;
+        }
+
+        .source-table th {
+            background: #222;
+            color: #fff;
+            padding: 13px 10px;
+            text-align: left;
+        }
+
+        .source-table td {
+            padding: 12px 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .source-table tr:hover td {
+            background: #f1f5ef;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .status-active {
+            background: #d9f2d0;
+            color: #205d12;
+        }
+
+        .status-inactive {
+            background: #e5e5e5;
+            color: #555;
+        }
+
+        .empty-message {
+            text-align: center;
+            padding: 25px;
+            color: #777;
         }
     </style>
-    <title>Waste Management</title>
- 
+
+    <title>Waste Source Generator Management</title>
 </head>
+
 <body>
+
     <!-- NAV BAR (GENERATED BY Code.gs) -->
-    {{NAVBAR}}
 
-        
-        <!-- Main Part (Edit Here:)-->
-<div class="main-content">
-    <h2 class="page-title"><span class="leaf" aria-hidden="true">🪴</span> DASHBOARD</h2><hr>
-            
-</div>
+    <!-- Main Part -->
 
-</div>
+    <div class="main-content">
+
+        <h2 class="page-title">
+            <span class="leaf" aria-hidden="true">🪴</span>
+            WASTE SOURCE GENERATOR MANAGEMENT
+        </h2>
+
+        <hr>
+
+        <p class="page-description">
+            Manage and monitor registered sources of waste in your community.
+        </p>
+
+        <!-- Summary Cards -->
+
+        <div class="summary-container">
+
+            <div class="summary-card">
+                <h3>Total Waste Sources</h3>
+                <p id="totalSources">0</p>
+            </div>
+
+            <div class="summary-card">
+                <h3>Active Sources</h3>
+                <p id="activeSources">0</p>
+            </div>
+
+            <div class="summary-card">
+                <h3>Inactive Sources</h3>
+                <p id="inactiveSources">0</p>
+            </div>
+
+        </div>
+
+        <!-- Add Waste Source Form -->
+
+        <div class="section-card">
+
+            <h3 class="section-title" id="formTitle">
+                Add Waste Source
+            </h3>
+
+            <form id="sourceForm">
+
+                <div class="form-container">
+
+                    <div class="form-group">
+                        <label for="sourceName">Source Name</label>
+                        <input type="text" id="sourceName"
+                            placeholder="Enter source name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="sourceType">Source Type</label>
+                        <select id="sourceType" required>
+                            <option value="">Select source type</option>
+                            <option value="Residential">Residential</option>
+                            <option value="Commercial">Commercial</option>
+                            <option value="Institutional">Institutional</option>
+                            <option value="Industrial">Industrial</option>
+                            <option value="Market">Market</option>
+                            <option value="Construction">Construction</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contactPerson">Contact Person</label>
+                        <input type="text" id="contactPerson"
+                            placeholder="Enter contact person" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contactNumber">Contact Number</label>
+                        <input type="tel" id="contactNumber"
+                            placeholder="Enter contact number" required>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="sourceAddress">Address / Location</label>
+                        <textarea id="sourceAddress"
+                            placeholder="Enter complete address" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="wasteType">Waste Type</label>
+                        <select id="wasteType" required>
+                            <option value="">Select waste type</option>
+                            <option value="Biodegradable">Biodegradable</option>
+                            <option value="Non-Biodegradable">Non-Biodegradable</option>
+                            <option value="Recyclable">Recyclable</option>
+                            <option value="Hazardous">Hazardous</option>
+                            <option value="Mixed Waste">Mixed Waste</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="sourceStatus">Status</label>
+                        <select id="sourceStatus" required>
+                            <option value="Active">Active</option>
+                            <option value="Inactive">Inactive</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="button-container">
+
+                    <button type="submit" class="btn btn-green" id="saveButton">
+                        Add Waste Source
+                    </button>
+
+                    <button type="button" class="btn btn-gray"
+                        id="cancelButton" onclick="resetForm()">
+                        Clear
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+        <!-- Waste Source Records -->
+
+        <div class="section-card">
+
+            <h3 class="section-title">Waste Source Records</h3>
+
+            <input type="text" class="search-box" id="searchInput"
+                placeholder="Search by name, type, address, or contact...">
+
+            <div class="table-container">
+
+                <table class="source-table">
+
+                    <thead>
+                        <tr>
+                            <th>Source Name</th>
+                            <th>Source Type</th>
+                            <th>Contact Person</th>
+                            <th>Waste Type</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="sourceTableBody">
+                        <tr>
+                            <td colspan="6" class="empty-message">
+                                No waste sources registered yet.
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        let wasteSources = [];
+        let editingId = null;
+        let nextId = 1;
+
+        const sourceForm = document.getElementById("sourceForm");
+        const sourceTableBody = document.getElementById("sourceTableBody");
+        const searchInput = document.getElementById("searchInput");
+
+        sourceForm.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const source = {
+                id: editingId === null ? nextId++ : editingId,
+                name: document.getElementById("sourceName").value.trim(),
+                type: document.getElementById("sourceType").value,
+                contact: document.getElementById("contactPerson").value.trim(),
+                number: document.getElementById("contactNumber").value.trim(),
+                address: document.getElementById("sourceAddress").value.trim(),
+                waste: document.getElementById("wasteType").value,
+                status: document.getElementById("sourceStatus").value
+            };
+
+            if (editingId === null) {
+                wasteSources.push(source);
+                alert("Waste source added successfully!");
+            } else {
+                const index = wasteSources.findIndex(function(item) {
+                    return item.id === editingId;
+                });
+
+                if (index !== -1) {
+                    wasteSources[index] = source;
+                }
+
+                alert("Waste source updated successfully!");
+            }
+
+            resetForm();
+            displaySources();
+        });
+
+        function displaySources() {
+            const searchText = searchInput.value.toLowerCase();
+
+            const filteredSources = wasteSources.filter(function(source) {
+                return (
+                    source.name.toLowerCase().includes(searchText) ||
+                    source.type.toLowerCase().includes(searchText) ||
+                    source.contact.toLowerCase().includes(searchText) ||
+                    source.address.toLowerCase().includes(searchText) ||
+                    source.waste.toLowerCase().includes(searchText) ||
+                    source.status.toLowerCase().includes(searchText)
+                );
+            });
+
+            sourceTableBody.innerHTML = "";
+
+            if (filteredSources.length === 0) {
+                sourceTableBody.innerHTML =
+                    '<tr><td colspan="6" class="empty-message">' +
+                    'No matching waste sources found.</td></tr>';
+            }
+
+            filteredSources.forEach(function(source) {
+                const row = document.createElement("tr");
+
+                const values = [
+                    source.name,
+                    source.type,
+                    source.contact,
+                    source.waste
+                ];
+
+                values.forEach(function(value) {
+                    const cell = document.createElement("td");
+                    cell.textContent = value;
+                    row.appendChild(cell);
+                });
+
+                const statusCell = document.createElement("td");
+                const statusLabel = document.createElement("span");
+
+                statusLabel.className = source.status === "Active"
+                    ? "status status-active"
+                    : "status status-inactive";
+
+                statusLabel.textContent = source.status;
+                statusCell.appendChild(statusLabel);
+                row.appendChild(statusCell);
+
+                const actionCell = document.createElement("td");
+
+                const editButton = document.createElement("button");
+                editButton.type = "button";
+                editButton.className = "btn btn-edit";
+                editButton.textContent = "Edit";
+                editButton.onclick = function() {
+                    editSource(source.id);
+                };
+
+                const deleteButton = document.createElement("button");
+                deleteButton.type = "button";
+                deleteButton.className = "btn btn-delete";
+                deleteButton.textContent = "Delete";
+                deleteButton.onclick = function() {
+                    deleteSource(source.id);
+                };
+
+                actionCell.appendChild(editButton);
+                actionCell.appendChild(document.createTextNode(" "));
+                actionCell.appendChild(deleteButton);
+
+                row.appendChild(actionCell);
+                sourceTableBody.appendChild(row);
+            });
+
+            document.getElementById("totalSources").textContent =
+                wasteSources.length;
+
+            document.getElementById("activeSources").textContent =
+                wasteSources.filter(function(source) {
+                    return source.status === "Active";
+                }).length;
+
+            document.getElementById("inactiveSources").textContent =
+                wasteSources.filter(function(source) {
+                    return source.status === "Inactive";
+                }).length;
+        }
+
+        function editSource(id) {
+            const source = wasteSources.find(function(item) {
+                return item.id === id;
+            });
+
+            if (!source) {
+                return;
+            }
+
+            editingId = id;
+
+            document.getElementById("sourceName").value = source.name;
+            document.getElementById("sourceType").value = source.type;
+            document.getElementById("contactPerson").value = source.contact;
+            document.getElementById("contactNumber").value = source.number;
+            document.getElementById("sourceAddress").value = source.address;
+            document.getElementById("wasteType").value = source.waste;
+            document.getElementById("sourceStatus").value = source.status;
+
+            document.getElementById("formTitle").textContent =
+                "Edit Waste Source";
+
+            document.getElementById("saveButton").textContent =
+                "Update Waste Source";
+
+            document.getElementById("sourceName").focus();
+        }
+
+        function deleteSource(id) {
+            const confirmDelete = confirm(
+                "Are you sure you want to delete this waste source?"
+            );
+
+            if (confirmDelete) {
+                wasteSources = wasteSources.filter(function(source) {
+                    return source.id !== id;
+                });
+
+                if (editingId === id) {
+                    resetForm();
+                }
+
+                displaySources();
+                alert("Waste source deleted successfully!");
+            }
+        }
+
+        function resetForm() {
+            sourceForm.reset();
+            editingId = null;
+
+            document.getElementById("formTitle").textContent =
+                "Add Waste Source";
+
+            document.getElementById("saveButton").textContent =
+                "Add Waste Source";
+        }
+
+        searchInput.addEventListener("input", displaySources);
+
+        displaySources();
+    </script>
+
+</body>
+</html>
